@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <style>  
+            .box{
+                width: 500px;
+                margin: 0 auto;
+                border: 1px solid red;
+            }      
+            img{
+                width: 400px;
+                height: 400px;
+                display: block;
+            }
+            .topContent{
+                width: 100%;
+                height: 1800px;
+                border: 1px solid red;
+            }
+        </style>
+    </head>
+    <body>
+            <div class="topContent"></div>
+            <div class = "box">
+                <img asrc = "https://source.unsplash.com/collection/190726/400x400"  />
+                <img asrc = "https://source.unsplash.com/collection/190726/500x500"  />
+                <img asrc = "https://source.unsplash.com/collection/190727/400x400"  />
+                <img asrc = "https://source.unsplash.com/collection/190727/500x500"  />
+                <img asrc = "https://source.unsplash.com/collection/190725/400x400"  />
+                <img asrc = "https://source.unsplash.com/collection/190725/500x500"  />     
+                <img asrc = "https://source.unsplash.com/collection/190723/400x400"  />
+                <img asrc = "https://source.unsplash.com/collection/190723/600x600"  />
+                <img asrc = "https://source.unsplash.com/collection/190723/400x400"  />
+                <img asrc = "https://source.unsplash.com/collection/190723/500x500"  />
+                <img asrc = "https://source.unsplash.com/collection/190725/500x600"  />
+                <img asrc = "https://source.unsplash.com/collection/190725/500x700"  />  
+                <img asrc = "https://source.unsplash.com/collection/190725/500x800"  />  
+                <img asrc = "https://source.unsplash.com/collection/190725/500x900"  />  
+                <img asrc = "https://source.unsplash.com/collection/190725/500x1000"  />  
+                <img asrc = "https://source.unsplash.com/collection/190725/600x500"  />  
+                <img asrc = "https://source.unsplash.com/collection/190725/700x500"  />  
+                <img asrc = "https://source.unsplash.com/collection/190725/800x500"  />  
+                <img asrc = "https://source.unsplash.com/collection/190725/900x500"  />  
+                <img asrc = "https://source.unsplash.com/collection/190725/1000x500"  />  
+                <img asrc = "https://source.unsplash.com/collection/190705/400x400"  />
+                <img asrc = "https://source.unsplash.com/collection/190705/500x500"  />
+                <img asrc = "https://source.unsplash.com/collection/190705/500x600"  />
+                <img asrc = "https://source.unsplash.com/collection/190705/600x600"  />
+            </div>
+    </body>
+    <script type="text/javascript">
+        (function(){
+            function tagName(tagName){
+                return document.getElementsByTagName(tagName);
+            }
+            function addEvent(obj,type,func){
+                if(obj.addEventListener){
+                    obj.addEventListener(type,func,false);
+                }else if(obj.attachEvent){
+                    obj.attachEvent('on'+type,func);
+                }
+            }
+            var v = {
+                eleGroup:null,
+                eleTop:null,
+                eleHeight:null,
+                screenHeight:null,
+                limitHeight:null
+            }
+            function init(element){
+                v.eleGroup = document.getElementsByTagName(element);
+                v.screenHeight = document.documentElement.clientHeight;
+                var len = v.eleGroup.length;
+                for(var i = 0;i < len; i++){
+                    if(v.eleGroup[i].offsetTop<v.screenHeight&&v.eleGroup[i].getAttribute("asrc")){
+                        v.eleGroup[i].setAttribute("src",v.eleGroup[i].getAttribute("asrc"));
+                        v.eleGroup[i].removeAttribute("asrc");
+                    }
+                }
+            }
+            function lazyload(){
+                v.limitHeight = document.documentElement.scrollTop || document.body.scrollTop + document.documentElement.clientHeight;
+                var len = v.eleGroup.length;
+                for(var j = 0 ;j < len; j++){
+                    console.log(v.eleGroup[j].offsetTop);
+                    console.log(v.limitHeight);
+                    if(v.eleGroup[j].offsetTop-400 <= v.limitHeight&&v.eleGroup[j].getAttribute("asrc")){
+                        console.log(11111);
+                        v.eleGroup[j].setAttribute("src",v.eleGroup[j].getAttribute("asrc"));
+                        v.eleGroup[j].removeAttribute("asrc");
+                    }
+                }
+            }
+            function debounce(func, wait) {
+                let timeout;
+                return function () {
+                    let context = this;
+                    let args = arguments;
+
+                    if (timeout) clearTimeout(timeout);
+                    
+                    timeout = setTimeout(() => {
+                        func.apply(context, args)
+                    }, wait);
+                }
+            }
+            init("img");
+            addEvent(window,"scroll",debounce(lazyload, 300));
+        })()
+    </script>
+</html>
